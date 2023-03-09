@@ -1,3 +1,12 @@
 <resources>
     <string name="app_name">SkooveTest</string>
+
+    <string name="error">Error</string>
+    <string name="audio_list_screen_app_top_bar_title">Skoovin\'</string>
+    <string name="contentDescription_audio_cover">Audio Cover</string>
+    <string name="contentDescription_audio_rating_start">Audio Rating Star</string>
+    <string name="contentDescription_audio_is_favorite">Audio Favorite Status</string>
+    <string name="message_loading">Loading..</string>
+    <string name="formatted_message_error" formatted="true">Error: %1$s</string>
+    <string name="message_error">Something is going wrong! Try again later..</string>
 </resources>
