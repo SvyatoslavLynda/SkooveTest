@@ -93,7 +93,17 @@ dependencies {
     implementation "org.jetbrains.kotlinx:kotlinx-serialization-json:$serialization_version"
 
     // Unit tests
+    testImplementation 'org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.4'
+    testImplementation 'androidx.arch.core:core-testing:2.2.0'
+    testImplementation 'androidx.test.ext:junit-ktx:1.1.5'
     testImplementation "junit:junit:$junit_version"
+    testImplementation 'org.powermock:powermock-module-junit4:1.6.2'
+    testImplementation 'org.powermock:powermock-api-mockito:1.4.12'
+    testImplementation 'org.mockito:mockito-core:4.8.0'
+    testImplementation('com.nhaarman.mockitokotlin2:mockito-kotlin:2.2.0') {
+        exclude group: 'org.jetbrains.kotlin'
+        exclude group: 'org.mockito'
+    }
 
     // Implementation tests
     androidTestImplementation "androidx.test.ext:junit:$junit_ext_version"

@@ -22,20 +22,12 @@ class SongsDbDataSourceImpl @Inject constructor(
         return songDataDao.getSongsFlow()
     }
 
-    override fun getSongs(): List<SongDetailsEntity> {
-        return songDataDao.getSongs()
-    }
-
     override fun getSong(id: Long): Flow<SongDetailsEntity?> {
         return songDataDao.getSong(id)
     }
 
     override suspend fun getCurrentFavorite(): SongDetailsEntity? {
         return withContext(Dispatchers.IO) { songDataDao.getFavoriteSongDetails() }
-    }
-
-    override suspend fun getSongEntity(id: Long): SongDetailsEntity? {
-        return withContext(Dispatchers.IO) { songDataDao.getSongDetails(id) }
     }
 
     override suspend fun updateSongsData(vararg songs: SongDetailsEntity) {

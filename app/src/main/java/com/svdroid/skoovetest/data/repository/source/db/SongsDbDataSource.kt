@@ -9,13 +9,9 @@ interface SongsDbDataSource {
 
     fun getSongsFlow(): Flow<List<SongDetailsEntity>>
 
-    fun getSongs(): List<SongDetailsEntity>
-
     fun getSong(id: Long): Flow<SongDetailsEntity?>
 
     suspend fun getCurrentFavorite(): SongDetailsEntity?
-
-    suspend fun getSongEntity(id: Long): SongDetailsEntity?
 
     suspend fun updateSongsData(vararg songs: SongDetailsEntity)
 }

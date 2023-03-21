@@ -7,6 +7,7 @@ import com.svdroid.skoovetest.data.ui.mapper.toDbEntity
 import com.svdroid.skoovetest.data.ui.mapper.toUIModel
 import com.svdroid.skoovetest.utils.extension.DataState
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
 import java.sql.SQLException
 import javax.inject.Inject
@@ -19,8 +20,8 @@ class SongsRepositoryImpl @Inject constructor(
     override fun getAllSongs(): Flow<DataState<List<SongUIModel>>> = flow {
         try {
             emit(DataState.Loading())
-
-            var localSongItems: List<SongUIModel> = dbDataSource.getSongs().map { it.toUIModel() }
+            val flowSongs = dbDataSource.getSongsFlow()
+            var localSongItems: List<SongUIModel> = flowSongs.first().map { it.toUIModel() }
 
             val response = networkDataSource.getSongsList()
             val entities = response.data.map { remoteSoundItem ->
@@ -36,7 +37,7 @@ class SongsRepositoryImpl @Inject constructor(
             val remoteSongItems = entities.map { it.toUIModel() }
             emit(DataState.Data(remoteSongItems))
 
-            dbDataSource.getSongsFlow().collect { dataFlow ->
+            flowSongs.collect { dataFlow ->
                 localSongItems = dataFlow.map { it.toUIModel() }
                 emit(DataState.Data(localSongItems))
             }
@@ -64,7 +65,7 @@ class SongsRepositoryImpl @Inject constructor(
     }
 
     override suspend fun markSongAsFavorite(songId: Long, isFavorite: Boolean): DataState<Unit> {
-        val entity = dbDataSource.getSongEntity(songId)
+        val entity = dbDataSource.getSong(songId).first()
 
         return try {
             if (entity != null) {
@@ -93,7 +94,7 @@ class SongsRepositoryImpl @Inject constructor(
     }
 
     override suspend fun setSongRating(songId: Long, rating: Int): DataState<Unit> {
-        val entity = dbDataSource.getSongEntity(songId)
+        val entity = dbDataSource.getSong(songId).first()
 
         return try {
             if (entity != null) {
