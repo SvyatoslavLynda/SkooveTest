@@ -1,0 +1,25 @@
+name: UnitTest
+on: [pull_request, push]
+jobs:
+
+  unit-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout the code
+        uses: actions/checkout@v2
+      - name: Setup JDK
+        uses: actions/setup-java@v1
+        with:
+          java-version: '11.0.9'
+          java-package: jdk
+      - name: Run Unit Tests
+        run: ./gradlew testDebugUnitTest
+      - name: Zip reports
+        if: always()
+        run: zip -r reports.zip . -i '**/reports/*.xml' '**/reports/*.html'
+      - name: Upload reports
+        if: always()
+        uses: actions/upload-artifact@v1
+        with:
+          name: unit_test_reports
+          path: reports.zip
